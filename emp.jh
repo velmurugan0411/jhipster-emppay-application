@@ -1,0 +1,24 @@
+
+application {
+  config {
+    baseName myApp,
+    applicationType monolith,
+    packageName com.myapp,
+    authenticationType jwt,
+    prodDatabaseType mysql,
+    clientFramework angular
+  }
+  entities *
+}
+
+entity Employee {
+	name String
+	email String
+}
+
+entity Payroll {
+	name String
+    paymonth Integer
+	amount Float
+}
+    
