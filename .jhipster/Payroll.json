@@ -1,0 +1,28 @@
+{
+  "applications": ["myApp"],
+  "changelogDate": "20220724185523",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "payroll",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "paymonth",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "amount",
+      "fieldType": "Float"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Payroll",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}
