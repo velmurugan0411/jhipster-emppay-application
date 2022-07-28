@@ -130,6 +130,9 @@ public class PayrollResource {
                 if (payroll.getAmount() != null) {
                     existingPayroll.setAmount(payroll.getAmount());
                 }
+                if (payroll.getNotes() != null) {
+                    existingPayroll.setNotes(payroll.getNotes());
+                }
 
                 return existingPayroll;
             })

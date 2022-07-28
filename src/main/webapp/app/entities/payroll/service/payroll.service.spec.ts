@@ -24,6 +24,7 @@ describe('Payroll Service', () => {
       name: 'AAAAAAA',
       paymonth: 0,
       amount: 0,
+      notes: 'AAAAAAA',
     };
   });
 
@@ -62,6 +63,7 @@ describe('Payroll Service', () => {
           name: 'BBBBBB',
           paymonth: 1,
           amount: 1,
+          notes: 'BBBBBB',
         },
         elemDefault
       );
@@ -79,6 +81,7 @@ describe('Payroll Service', () => {
       const patchObject = Object.assign(
         {
           name: 'BBBBBB',
+          notes: 'BBBBBB',
         },
         new Payroll()
       );
@@ -101,6 +104,7 @@ describe('Payroll Service', () => {
           name: 'BBBBBB',
           paymonth: 1,
           amount: 1,
+          notes: 'BBBBBB',
         },
         elemDefault
       );
@@ -152,7 +156,7 @@ describe('Payroll Service', () => {
       });
 
       it('should add only unique Payroll to an array', () => {
-        const payrollArray: IPayroll[] = [{ id: 123 }, { id: 456 }, { id: 81186 }];
+        const payrollArray: IPayroll[] = [{ id: 123 }, { id: 456 }, { id: 40840 }];
         const payrollCollection: IPayroll[] = [{ id: 123 }];
         expectedResult = service.addPayrollToCollectionIfMissing(payrollCollection, ...payrollArray);
         expect(expectedResult).toHaveLength(3);

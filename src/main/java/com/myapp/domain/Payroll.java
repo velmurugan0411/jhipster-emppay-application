@@ -29,6 +29,9 @@ public class Payroll implements Serializable {
     @Column(name = "amount")
     private Float amount;
 
+    @Column(name = "notes")
+    private String notes;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -83,6 +86,19 @@ public class Payroll implements Serializable {
         this.amount = amount;
     }
 
+    public String getNotes() {
+        return this.notes;
+    }
+
+    public Payroll notes(String notes) {
+        this.setNotes(notes);
+        return this;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -110,6 +126,7 @@ public class Payroll implements Serializable {
             ", name='" + getName() + "'" +
             ", paymonth=" + getPaymonth() +
             ", amount=" + getAmount() +
+            ", notes='" + getNotes() + "'" +
             "}";
     }
 }

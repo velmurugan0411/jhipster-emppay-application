@@ -38,6 +38,9 @@ class PayrollResourceIT {
     private static final Float DEFAULT_AMOUNT = 1F;
     private static final Float UPDATED_AMOUNT = 2F;
 
+    private static final String DEFAULT_NOTES = "AAAAAAAAAA";
+    private static final String UPDATED_NOTES = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/payrolls";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -62,7 +65,7 @@ class PayrollResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Payroll createEntity(EntityManager em) {
-        Payroll payroll = new Payroll().name(DEFAULT_NAME).paymonth(DEFAULT_PAYMONTH).amount(DEFAULT_AMOUNT);
+        Payroll payroll = new Payroll().name(DEFAULT_NAME).paymonth(DEFAULT_PAYMONTH).amount(DEFAULT_AMOUNT).notes(DEFAULT_NOTES);
         return payroll;
     }
 
@@ -73,7 +76,7 @@ class PayrollResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Payroll createUpdatedEntity(EntityManager em) {
-        Payroll payroll = new Payroll().name(UPDATED_NAME).paymonth(UPDATED_PAYMONTH).amount(UPDATED_AMOUNT);
+        Payroll payroll = new Payroll().name(UPDATED_NAME).paymonth(UPDATED_PAYMONTH).amount(UPDATED_AMOUNT).notes(UPDATED_NOTES);
         return payroll;
     }
 
@@ -98,6 +101,7 @@ class PayrollResourceIT {
         assertThat(testPayroll.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testPayroll.getPaymonth()).isEqualTo(DEFAULT_PAYMONTH);
         assertThat(testPayroll.getAmount()).isEqualTo(DEFAULT_AMOUNT);
+        assertThat(testPayroll.getNotes()).isEqualTo(DEFAULT_NOTES);
     }
 
     @Test
@@ -132,7 +136,8 @@ class PayrollResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(payroll.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].paymonth").value(hasItem(DEFAULT_PAYMONTH)))
-            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.doubleValue())));
+            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].notes").value(hasItem(DEFAULT_NOTES)));
     }
 
     @Test
@@ -149,7 +154,8 @@ class PayrollResourceIT {
             .andExpect(jsonPath("$.id").value(payroll.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.paymonth").value(DEFAULT_PAYMONTH))
-            .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.doubleValue()));
+            .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.doubleValue()))
+            .andExpect(jsonPath("$.notes").value(DEFAULT_NOTES));
     }
 
     @Test
@@ -171,7 +177,7 @@ class PayrollResourceIT {
         Payroll updatedPayroll = payrollRepository.findById(payroll.getId()).get();
         // Disconnect from session so that the updates on updatedPayroll are not directly saved in db
         em.detach(updatedPayroll);
-        updatedPayroll.name(UPDATED_NAME).paymonth(UPDATED_PAYMONTH).amount(UPDATED_AMOUNT);
+        updatedPayroll.name(UPDATED_NAME).paymonth(UPDATED_PAYMONTH).amount(UPDATED_AMOUNT).notes(UPDATED_NOTES);
 
         restPayrollMockMvc
             .perform(
@@ -188,6 +194,7 @@ class PayrollResourceIT {
         assertThat(testPayroll.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testPayroll.getPaymonth()).isEqualTo(UPDATED_PAYMONTH);
         assertThat(testPayroll.getAmount()).isEqualTo(UPDATED_AMOUNT);
+        assertThat(testPayroll.getNotes()).isEqualTo(UPDATED_NOTES);
     }
 
     @Test
@@ -258,7 +265,7 @@ class PayrollResourceIT {
         Payroll partialUpdatedPayroll = new Payroll();
         partialUpdatedPayroll.setId(payroll.getId());
 
-        partialUpdatedPayroll.paymonth(UPDATED_PAYMONTH).amount(UPDATED_AMOUNT);
+        partialUpdatedPayroll.paymonth(UPDATED_PAYMONTH).amount(UPDATED_AMOUNT).notes(UPDATED_NOTES);
 
         restPayrollMockMvc
             .perform(
@@ -275,6 +282,7 @@ class PayrollResourceIT {
         assertThat(testPayroll.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testPayroll.getPaymonth()).isEqualTo(UPDATED_PAYMONTH);
         assertThat(testPayroll.getAmount()).isEqualTo(UPDATED_AMOUNT);
+        assertThat(testPayroll.getNotes()).isEqualTo(UPDATED_NOTES);
     }
 
     @Test
@@ -289,7 +297,7 @@ class PayrollResourceIT {
         Payroll partialUpdatedPayroll = new Payroll();
         partialUpdatedPayroll.setId(payroll.getId());
 
-        partialUpdatedPayroll.name(UPDATED_NAME).paymonth(UPDATED_PAYMONTH).amount(UPDATED_AMOUNT);
+        partialUpdatedPayroll.name(UPDATED_NAME).paymonth(UPDATED_PAYMONTH).amount(UPDATED_AMOUNT).notes(UPDATED_NOTES);
 
         restPayrollMockMvc
             .perform(
@@ -306,6 +314,7 @@ class PayrollResourceIT {
         assertThat(testPayroll.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testPayroll.getPaymonth()).isEqualTo(UPDATED_PAYMONTH);
         assertThat(testPayroll.getAmount()).isEqualTo(UPDATED_AMOUNT);
+        assertThat(testPayroll.getNotes()).isEqualTo(UPDATED_NOTES);
     }
 
     @Test

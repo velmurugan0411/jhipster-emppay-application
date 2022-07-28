@@ -20,7 +20,8 @@
       "id": "ID",
       "name": "Name",
       "paymonth": "Paymonth",
-      "amount": "Amount"
+      "amount": "Amount",
+      "notes": "Notes"
     }
   }
 }
