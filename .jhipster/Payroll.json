@@ -16,6 +16,10 @@
     {
       "fieldName": "amount",
       "fieldType": "Float"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
     }
   ],
   "fluentMethods": true,

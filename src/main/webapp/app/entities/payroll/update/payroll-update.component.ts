@@ -20,6 +20,7 @@ export class PayrollUpdateComponent implements OnInit {
     name: [],
     paymonth: [],
     amount: [],
+    notes: [],
   });
 
   constructor(protected payrollService: PayrollService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
@@ -69,6 +70,7 @@ export class PayrollUpdateComponent implements OnInit {
       name: payroll.name,
       paymonth: payroll.paymonth,
       amount: payroll.amount,
+      notes: payroll.notes,
     });
   }
 
@@ -79,6 +81,7 @@ export class PayrollUpdateComponent implements OnInit {
       name: this.editForm.get(['name'])!.value,
       paymonth: this.editForm.get(['paymonth'])!.value,
       amount: this.editForm.get(['amount'])!.value,
+      notes: this.editForm.get(['notes'])!.value,
     };
   }
 }

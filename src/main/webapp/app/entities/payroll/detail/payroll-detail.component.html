@@ -26,6 +26,10 @@
         <dd>
           <span>{{ payroll.amount }}</span>
         </dd>
+        <dt><span jhiTranslate="myApp.payroll.notes">Notes</span></dt>
+        <dd>
+          <span>{{ payroll.notes }}</span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
