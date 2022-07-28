@@ -20,5 +20,6 @@ entity Payroll {
 	name String
     paymonth Integer
 	amount Float
+    notes String
 }
     
