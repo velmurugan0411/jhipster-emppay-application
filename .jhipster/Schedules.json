@@ -1,0 +1,32 @@
+{
+  "applications": ["lmsApp"],
+  "changelogDate": "20220825034137",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "schedules",
+  "fields": [
+    {
+      "fieldName": "scheduleId",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "scheduleName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "scheduleBeginDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "scheduleEndDate",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Schedules",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

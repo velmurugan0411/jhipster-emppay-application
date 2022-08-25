@@ -1,13 +1,7 @@
 export interface IEmployee {
-  id?: number;
+  id: number;
   name?: string | null;
   email?: string | null;
 }
 
-export class Employee implements IEmployee {
-  constructor(public id?: number, public name?: string | null, public email?: string | null) {}
-}
-
-export function getEmployeeIdentifier(employee: IEmployee): number | undefined {
-  return employee.id;
-}
+export type NewEmployee = Omit<IEmployee, 'id'> & { id: null };

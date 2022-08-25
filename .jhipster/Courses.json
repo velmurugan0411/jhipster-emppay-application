@@ -1,0 +1,28 @@
+{
+  "applications": ["lmsApp"],
+  "changelogDate": "20220825034136",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "courses",
+  "fields": [
+    {
+      "fieldName": "courseId",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "courseTitle",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "courseDesc",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Courses",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "no"
+}

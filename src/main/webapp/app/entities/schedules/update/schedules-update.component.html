@@ -1,0 +1,98 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-schedules-heading" data-cy="SchedulesCreateUpdateHeading" jhiTranslate="lmsApp.schedules.home.createOrEditLabel">
+        Create or edit a Schedules
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="lmsApp.schedules.scheduleId" for="field_scheduleId">Schedule Id</label>
+          <input
+            type="number"
+            class="form-control"
+            name="scheduleId"
+            id="field_scheduleId"
+            data-cy="scheduleId"
+            formControlName="scheduleId"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="lmsApp.schedules.scheduleName" for="field_scheduleName">Schedule Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="scheduleName"
+            id="field_scheduleName"
+            data-cy="scheduleName"
+            formControlName="scheduleName"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="lmsApp.schedules.scheduleBeginDate" for="field_scheduleBeginDate"
+            >Schedule Begin Date</label
+          >
+          <div class="input-group">
+            <input
+              id="field_scheduleBeginDate"
+              data-cy="scheduleBeginDate"
+              type="text"
+              class="form-control"
+              name="scheduleBeginDate"
+              ngbDatepicker
+              #scheduleBeginDateDp="ngbDatepicker"
+              formControlName="scheduleBeginDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="scheduleBeginDateDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="lmsApp.schedules.scheduleEndDate" for="field_scheduleEndDate">Schedule End Date</label>
+          <div class="input-group">
+            <input
+              id="field_scheduleEndDate"
+              data-cy="scheduleEndDate"
+              type="text"
+              class="form-control"
+              name="scheduleEndDate"
+              ngbDatepicker
+              #scheduleEndDateDp="ngbDatepicker"
+              formControlName="scheduleEndDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="scheduleEndDateDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

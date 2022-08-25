@@ -23,10 +23,14 @@ module.exports = async (config, options, targetOptions) => {
   if (config.mode === 'development') {
     config.plugins.push(
       new ESLintPlugin({
-        extensions: ['js', 'ts'],
+        baseConfig: {
+          parserOptions: {
+            project: ['../tsconfig.app.json'],
+          },
+        },
       }),
       new WebpackNotifierPlugin({
-        title: 'My App',
+        title: 'Lms App',
         contentImage: path.join(__dirname, 'logo-jhipster.png'),
       })
     );

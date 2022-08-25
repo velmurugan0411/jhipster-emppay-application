@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
-import { IEmployee, getEmployeeIdentifier } from '../employee.model';
+import { IEmployee, NewEmployee } from '../employee.model';
+
+export type PartialUpdateEmployee = Partial<IEmployee> & Pick<IEmployee, 'id'>;
 
 export type EntityResponseType = HttpResponse<IEmployee>;
 export type EntityArrayResponseType = HttpResponse<IEmployee[]>;
@@ -16,18 +18,16 @@ export class EmployeeService {
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
-  create(employee: IEmployee): Observable<EntityResponseType> {
+  create(employee: NewEmployee): Observable<EntityResponseType> {
     return this.http.post<IEmployee>(this.resourceUrl, employee, { observe: 'response' });
   }
 
   update(employee: IEmployee): Observable<EntityResponseType> {
-    return this.http.put<IEmployee>(`${this.resourceUrl}/${getEmployeeIdentifier(employee) as number}`, employee, { observe: 'response' });
+    return this.http.put<IEmployee>(`${this.resourceUrl}/${this.getEmployeeIdentifier(employee)}`, employee, { observe: 'response' });
   }
 
-  partialUpdate(employee: IEmployee): Observable<EntityResponseType> {
-    return this.http.patch<IEmployee>(`${this.resourceUrl}/${getEmployeeIdentifier(employee) as number}`, employee, {
-      observe: 'response',
-    });
+  partialUpdate(employee: PartialUpdateEmployee): Observable<EntityResponseType> {
+    return this.http.patch<IEmployee>(`${this.resourceUrl}/${this.getEmployeeIdentifier(employee)}`, employee, { observe: 'response' });
   }
 
   find(id: number): Observable<EntityResponseType> {
@@ -43,13 +43,24 @@ export class EmployeeService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  addEmployeeToCollectionIfMissing(employeeCollection: IEmployee[], ...employeesToCheck: (IEmployee | null | undefined)[]): IEmployee[] {
-    const employees: IEmployee[] = employeesToCheck.filter(isPresent);
+  getEmployeeIdentifier(employee: Pick<IEmployee, 'id'>): number {
+    return employee.id;
+  }
+
+  compareEmployee(o1: Pick<IEmployee, 'id'> | null, o2: Pick<IEmployee, 'id'> | null): boolean {
+    return o1 && o2 ? this.getEmployeeIdentifier(o1) === this.getEmployeeIdentifier(o2) : o1 === o2;
+  }
+
+  addEmployeeToCollectionIfMissing<Type extends Pick<IEmployee, 'id'>>(
+    employeeCollection: Type[],
+    ...employeesToCheck: (Type | null | undefined)[]
+  ): Type[] {
+    const employees: Type[] = employeesToCheck.filter(isPresent);
     if (employees.length > 0) {
-      const employeeCollectionIdentifiers = employeeCollection.map(employeeItem => getEmployeeIdentifier(employeeItem)!);
+      const employeeCollectionIdentifiers = employeeCollection.map(employeeItem => this.getEmployeeIdentifier(employeeItem)!);
       const employeesToAdd = employees.filter(employeeItem => {
-        const employeeIdentifier = getEmployeeIdentifier(employeeItem);
-        if (employeeIdentifier == null || employeeCollectionIdentifiers.includes(employeeIdentifier)) {
+        const employeeIdentifier = this.getEmployeeIdentifier(employeeItem);
+        if (employeeCollectionIdentifiers.includes(employeeIdentifier)) {
           return false;
         }
         employeeCollectionIdentifiers.push(employeeIdentifier);

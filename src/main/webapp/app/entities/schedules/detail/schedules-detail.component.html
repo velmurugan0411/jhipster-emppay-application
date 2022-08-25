@@ -1,0 +1,44 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="schedules">
+      <h2 data-cy="schedulesDetailsHeading"><span jhiTranslate="lmsApp.schedules.detail.title">Schedules</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ schedules.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="lmsApp.schedules.scheduleId">Schedule Id</span></dt>
+        <dd>
+          <span>{{ schedules.scheduleId }}</span>
+        </dd>
+        <dt><span jhiTranslate="lmsApp.schedules.scheduleName">Schedule Name</span></dt>
+        <dd>
+          <span>{{ schedules.scheduleName }}</span>
+        </dd>
+        <dt><span jhiTranslate="lmsApp.schedules.scheduleBeginDate">Schedule Begin Date</span></dt>
+        <dd>
+          <span>{{ schedules.scheduleBeginDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="lmsApp.schedules.scheduleEndDate">Schedule End Date</span></dt>
+        <dd>
+          <span>{{ schedules.scheduleEndDate | formatMediumDate }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/schedules', schedules.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

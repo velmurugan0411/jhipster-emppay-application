@@ -18,7 +18,7 @@ logging:
     ROOT: DEBUG
     tech.jhipster: DEBUG
     org.hibernate.SQL: DEBUG
-    com.myapp: DEBUG
+    com.techfinite.lms: DEBUG
 
 spring:
   devtools:
@@ -32,8 +32,8 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:file:./target/h2db/db/myapp;DB_CLOSE_DELAY=-1
-    username: myApp
+    url: jdbc:h2:file:./target/h2db/db/lmsapp;DB_CLOSE_DELAY=-1
+    username: lmsApp
     password:
     hikari:
       poolName: Hikari
@@ -43,7 +43,6 @@ spring:
       # disable spring boot built-in h2-console since we start it manually with correct configuration
       enabled: false
   jpa:
-    database-platform: tech.jhipster.domain.util.FixedH2Dialect
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker

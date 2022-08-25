@@ -9,6 +9,5 @@ import { PayrollRoutingModule } from './route/payroll-routing.module';
 @NgModule({
   imports: [SharedModule, PayrollRoutingModule],
   declarations: [PayrollComponent, PayrollDetailComponent, PayrollUpdateComponent, PayrollDeleteDialogComponent],
-  entryComponents: [PayrollDeleteDialogComponent],
 })
 export class PayrollModule {}

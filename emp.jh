@@ -1,24 +1,26 @@
 
 application {
   config {
-    baseName myApp,
+    baseName lmsApp,
     applicationType monolith,
-    packageName com.myapp,
+    packageName com.techfinite.lms,
     authenticationType jwt,
-    prodDatabaseType mysql,
+    prodDatabaseType postgresql,
     clientFramework angular
   }
   entities *
 }
 
-entity Employee {
-	name String
-	email String
+entity Courses {
+	courseId Integer
+    courseTitle String
+	courseDesc String
 }
 
-entity Payroll {
-	name String
-    paymonth Integer
-	amount Float
+entity Schedules {
+	scheduleId Integer
+	scheduleName String
+    scheduleBeginDate LocalDate
+    scheduleEndDate LocalDate
 }
     

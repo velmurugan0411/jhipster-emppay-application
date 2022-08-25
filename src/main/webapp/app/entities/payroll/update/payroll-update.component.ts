@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { IPayroll, Payroll } from '../payroll.model';
+import { PayrollFormService, PayrollFormGroup } from './payroll-form.service';
+import { IPayroll } from '../payroll.model';
 import { PayrollService } from '../service/payroll.service';
 
 @Component({
@@ -14,19 +14,22 @@ import { PayrollService } from '../service/payroll.service';
 })
 export class PayrollUpdateComponent implements OnInit {
   isSaving = false;
+  payroll: IPayroll | null = null;
 
-  editForm = this.fb.group({
-    id: [],
-    name: [],
-    paymonth: [],
-    amount: [],
-  });
+  editForm: PayrollFormGroup = this.payrollFormService.createPayrollFormGroup();
 
-  constructor(protected payrollService: PayrollService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
+  constructor(
+    protected payrollService: PayrollService,
+    protected payrollFormService: PayrollFormService,
+    protected activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ payroll }) => {
-      this.updateForm(payroll);
+      this.payroll = payroll;
+      if (payroll) {
+        this.updateForm(payroll);
+      }
     });
   }
 
@@ -36,8 +39,8 @@ export class PayrollUpdateComponent implements OnInit {
 
   save(): void {
     this.isSaving = true;
-    const payroll = this.createFromForm();
-    if (payroll.id !== undefined) {
+    const payroll = this.payrollFormService.getPayroll(this.editForm);
+    if (payroll.id !== null) {
       this.subscribeToSaveResponse(this.payrollService.update(payroll));
     } else {
       this.subscribeToSaveResponse(this.payrollService.create(payroll));
@@ -64,21 +67,7 @@ export class PayrollUpdateComponent implements OnInit {
   }
 
   protected updateForm(payroll: IPayroll): void {
-    this.editForm.patchValue({
-      id: payroll.id,
-      name: payroll.name,
-      paymonth: payroll.paymonth,
-      amount: payroll.amount,
-    });
-  }
-
-  protected createFromForm(): IPayroll {
-    return {
-      ...new Payroll(),
-      id: this.editForm.get(['id'])!.value,
-      name: this.editForm.get(['name'])!.value,
-      paymonth: this.editForm.get(['paymonth'])!.value,
-      amount: this.editForm.get(['amount'])!.value,
-    };
+    this.payroll = payroll;
+    this.payrollFormService.resetForm(this.editForm, payroll);
   }
 }
