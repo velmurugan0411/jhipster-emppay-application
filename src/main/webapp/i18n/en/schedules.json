@@ -1,0 +1,27 @@
+{
+  "lmsApp": {
+    "schedules": {
+      "home": {
+        "title": "Schedules",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Schedules",
+        "createOrEditLabel": "Create or edit a Schedules",
+        "notFound": "No Schedules found"
+      },
+      "created": "A new Schedules is created with identifier {{ param }}",
+      "updated": "A Schedules is updated with identifier {{ param }}",
+      "deleted": "A Schedules is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Schedules {{ id }}?"
+      },
+      "detail": {
+        "title": "Schedules"
+      },
+      "id": "ID",
+      "scheduleId": "Schedule Id",
+      "scheduleName": "Schedule Name",
+      "scheduleBeginDate": "Schedule Begin Date",
+      "scheduleEndDate": "Schedule End Date"
+    }
+  }
+}

@@ -5,7 +5,7 @@ import { ActivatedRouteSnapshot, ActivatedRoute, Router, convertToParamMap } fro
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
-import { IPayroll, Payroll } from '../payroll.model';
+import { IPayroll } from '../payroll.model';
 import { PayrollService } from '../service/payroll.service';
 
 import { PayrollRoutingResolveService } from './payroll-routing-resolve.service';
@@ -15,7 +15,7 @@ describe('Payroll routing resolve service', () => {
   let mockActivatedRouteSnapshot: ActivatedRouteSnapshot;
   let routingResolveService: PayrollRoutingResolveService;
   let service: PayrollService;
-  let resultPayroll: IPayroll | undefined;
+  let resultPayroll: IPayroll | null | undefined;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -55,7 +55,7 @@ describe('Payroll routing resolve service', () => {
       expect(resultPayroll).toEqual({ id: 123 });
     });
 
-    it('should return new IPayroll if id is not provided', () => {
+    it('should return null if id is not provided', () => {
       // GIVEN
       service.find = jest.fn();
       mockActivatedRouteSnapshot.params = {};
@@ -67,12 +67,12 @@ describe('Payroll routing resolve service', () => {
 
       // THEN
       expect(service.find).not.toBeCalled();
-      expect(resultPayroll).toEqual(new Payroll());
+      expect(resultPayroll).toEqual(null);
     });
 
     it('should route to 404 page if data not found in server', () => {
       // GIVEN
-      jest.spyOn(service, 'find').mockReturnValue(of(new HttpResponse({ body: null as unknown as Payroll })));
+      jest.spyOn(service, 'find').mockReturnValue(of(new HttpResponse<IPayroll>({ body: null })));
       mockActivatedRouteSnapshot.params = { id: 123 };
 
       // WHEN

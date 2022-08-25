@@ -9,4 +9,14 @@ export const EntityNavbarItems = [
     route: 'payroll',
     translationKey: 'global.menu.entities.payroll',
   },
+  {
+    name: 'Courses',
+    route: 'courses',
+    translationKey: 'global.menu.entities.courses',
+  },
+  {
+    name: 'Schedules',
+    route: 'schedules',
+    translationKey: 'global.menu.entities.schedules',
+  },
 ];

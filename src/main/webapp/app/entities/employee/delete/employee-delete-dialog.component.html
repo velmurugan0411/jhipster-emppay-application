@@ -7,9 +7,8 @@
 
   <div class="modal-body">
     <jhi-alert-error></jhi-alert-error>
-
-    <p id="jhi-delete-employee-heading" jhiTranslate="myApp.employee.delete.question" [translateValues]="{ id: employee.id }">
-      Are you sure you want to delete this Employee?
+    <p id="jhi-delete-employee-heading" jhiTranslate="lmsApp.employee.delete.question" [translateValues]="{ id: employee.id }">
+      Are you sure you want to delete Employee {{ employee.id }}?
     </p>
   </div>
 

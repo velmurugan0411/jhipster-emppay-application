@@ -6,11 +6,15 @@ import { PayrollComponent } from '../list/payroll.component';
 import { PayrollDetailComponent } from '../detail/payroll-detail.component';
 import { PayrollUpdateComponent } from '../update/payroll-update.component';
 import { PayrollRoutingResolveService } from './payroll-routing-resolve.service';
+import { ASC } from 'app/config/navigation.constants';
 
 const payrollRoute: Routes = [
   {
     path: '',
     component: PayrollComponent,
+    data: {
+      defaultSort: 'id,' + ASC,
+    },
     canActivate: [UserRouteAccessService],
   },
   {

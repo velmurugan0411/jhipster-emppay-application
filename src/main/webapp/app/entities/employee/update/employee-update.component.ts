@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { IEmployee, Employee } from '../employee.model';
+import { EmployeeFormService, EmployeeFormGroup } from './employee-form.service';
+import { IEmployee } from '../employee.model';
 import { EmployeeService } from '../service/employee.service';
 
 @Component({
@@ -14,18 +14,22 @@ import { EmployeeService } from '../service/employee.service';
 })
 export class EmployeeUpdateComponent implements OnInit {
   isSaving = false;
+  employee: IEmployee | null = null;
 
-  editForm = this.fb.group({
-    id: [],
-    name: [],
-    email: [],
-  });
+  editForm: EmployeeFormGroup = this.employeeFormService.createEmployeeFormGroup();
 
-  constructor(protected employeeService: EmployeeService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
+  constructor(
+    protected employeeService: EmployeeService,
+    protected employeeFormService: EmployeeFormService,
+    protected activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ employee }) => {
-      this.updateForm(employee);
+      this.employee = employee;
+      if (employee) {
+        this.updateForm(employee);
+      }
     });
   }
 
@@ -35,8 +39,8 @@ export class EmployeeUpdateComponent implements OnInit {
 
   save(): void {
     this.isSaving = true;
-    const employee = this.createFromForm();
-    if (employee.id !== undefined) {
+    const employee = this.employeeFormService.getEmployee(this.editForm);
+    if (employee.id !== null) {
       this.subscribeToSaveResponse(this.employeeService.update(employee));
     } else {
       this.subscribeToSaveResponse(this.employeeService.create(employee));
@@ -63,19 +67,7 @@ export class EmployeeUpdateComponent implements OnInit {
   }
 
   protected updateForm(employee: IEmployee): void {
-    this.editForm.patchValue({
-      id: employee.id,
-      name: employee.name,
-      email: employee.email,
-    });
-  }
-
-  protected createFromForm(): IEmployee {
-    return {
-      ...new Employee(),
-      id: this.editForm.get(['id'])!.value,
-      name: this.editForm.get(['name'])!.value,
-      email: this.editForm.get(['email'])!.value,
-    };
+    this.employee = employee;
+    this.employeeFormService.resetForm(this.editForm, employee);
   }
 }

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "my-app": {
+    "lms-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -76,15 +76,15 @@
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "browserTarget": "my-app:build:development",
+            "browserTarget": "lms-app:build:development",
             "port": 4200
           },
           "configurations": {
             "production": {
-              "browserTarget": "my-app:build:production"
+              "browserTarget": "lms-app:build:production"
             },
             "development": {
-              "browserTarget": "my-app:build:development"
+              "browserTarget": "lms-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -98,7 +98,6 @@
       }
     }
   },
-  "defaultProject": "my-app",
   "cli": {
     "cache": {
       "enabled": true,

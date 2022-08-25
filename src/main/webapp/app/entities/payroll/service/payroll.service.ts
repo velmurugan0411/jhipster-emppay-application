@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
-import { IPayroll, getPayrollIdentifier } from '../payroll.model';
+import { IPayroll, NewPayroll } from '../payroll.model';
+
+export type PartialUpdatePayroll = Partial<IPayroll> & Pick<IPayroll, 'id'>;
 
 export type EntityResponseType = HttpResponse<IPayroll>;
 export type EntityArrayResponseType = HttpResponse<IPayroll[]>;
@@ -16,16 +18,16 @@ export class PayrollService {
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
-  create(payroll: IPayroll): Observable<EntityResponseType> {
+  create(payroll: NewPayroll): Observable<EntityResponseType> {
     return this.http.post<IPayroll>(this.resourceUrl, payroll, { observe: 'response' });
   }
 
   update(payroll: IPayroll): Observable<EntityResponseType> {
-    return this.http.put<IPayroll>(`${this.resourceUrl}/${getPayrollIdentifier(payroll) as number}`, payroll, { observe: 'response' });
+    return this.http.put<IPayroll>(`${this.resourceUrl}/${this.getPayrollIdentifier(payroll)}`, payroll, { observe: 'response' });
   }
 
-  partialUpdate(payroll: IPayroll): Observable<EntityResponseType> {
-    return this.http.patch<IPayroll>(`${this.resourceUrl}/${getPayrollIdentifier(payroll) as number}`, payroll, { observe: 'response' });
+  partialUpdate(payroll: PartialUpdatePayroll): Observable<EntityResponseType> {
+    return this.http.patch<IPayroll>(`${this.resourceUrl}/${this.getPayrollIdentifier(payroll)}`, payroll, { observe: 'response' });
   }
 
   find(id: number): Observable<EntityResponseType> {
@@ -41,13 +43,24 @@ export class PayrollService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  addPayrollToCollectionIfMissing(payrollCollection: IPayroll[], ...payrollsToCheck: (IPayroll | null | undefined)[]): IPayroll[] {
-    const payrolls: IPayroll[] = payrollsToCheck.filter(isPresent);
+  getPayrollIdentifier(payroll: Pick<IPayroll, 'id'>): number {
+    return payroll.id;
+  }
+
+  comparePayroll(o1: Pick<IPayroll, 'id'> | null, o2: Pick<IPayroll, 'id'> | null): boolean {
+    return o1 && o2 ? this.getPayrollIdentifier(o1) === this.getPayrollIdentifier(o2) : o1 === o2;
+  }
+
+  addPayrollToCollectionIfMissing<Type extends Pick<IPayroll, 'id'>>(
+    payrollCollection: Type[],
+    ...payrollsToCheck: (Type | null | undefined)[]
+  ): Type[] {
+    const payrolls: Type[] = payrollsToCheck.filter(isPresent);
     if (payrolls.length > 0) {
-      const payrollCollectionIdentifiers = payrollCollection.map(payrollItem => getPayrollIdentifier(payrollItem)!);
+      const payrollCollectionIdentifiers = payrollCollection.map(payrollItem => this.getPayrollIdentifier(payrollItem)!);
       const payrollsToAdd = payrolls.filter(payrollItem => {
-        const payrollIdentifier = getPayrollIdentifier(payrollItem);
-        if (payrollIdentifier == null || payrollCollectionIdentifiers.includes(payrollIdentifier)) {
+        const payrollIdentifier = this.getPayrollIdentifier(payrollItem);
+        if (payrollCollectionIdentifiers.includes(payrollIdentifier)) {
           return false;
         }
         payrollCollectionIdentifiers.push(payrollIdentifier);

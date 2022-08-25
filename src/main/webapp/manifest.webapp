@@ -1,6 +1,6 @@
 {
-  "name": "MyApp",
-  "short_name": "MyApp",
+  "name": "LmsApp",
+  "short_name": "LmsApp",
   "icons": [
     {
       "src": "./content/images/jhipster_family_member_1_head-192.png",

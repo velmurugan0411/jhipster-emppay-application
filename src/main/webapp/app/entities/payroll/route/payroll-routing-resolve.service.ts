@@ -4,18 +4,18 @@ import { Resolve, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Observable, of, EMPTY } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
-import { IPayroll, Payroll } from '../payroll.model';
+import { IPayroll } from '../payroll.model';
 import { PayrollService } from '../service/payroll.service';
 
 @Injectable({ providedIn: 'root' })
-export class PayrollRoutingResolveService implements Resolve<IPayroll> {
+export class PayrollRoutingResolveService implements Resolve<IPayroll | null> {
   constructor(protected service: PayrollService, protected router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<IPayroll> | Observable<never> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IPayroll | null | never> {
     const id = route.params['id'];
     if (id) {
       return this.service.find(id).pipe(
-        mergeMap((payroll: HttpResponse<Payroll>) => {
+        mergeMap((payroll: HttpResponse<IPayroll>) => {
           if (payroll.body) {
             return of(payroll.body);
           } else {
@@ -25,6 +25,6 @@ export class PayrollRoutingResolveService implements Resolve<IPayroll> {
         })
       );
     }
-    return of(new Payroll());
+    return of(null);
   }
 }
